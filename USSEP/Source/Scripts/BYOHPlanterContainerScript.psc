@@ -31,17 +31,17 @@ endEvent
 
 Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemReference, ObjectReference akSourceContainer)
 	;Trace("PLANTER - Adding " + akBaseItem + " to the Planter Container")
-; 	debug.Trace(self + " has had " + akBaseItem + " added to inventory: Checking Type")
+	;debug.Trace(self + " has had " + akBaseItem + " added to inventory: Checking Type")
 	
 	;If items is potion or ingredient && item is in our formlist
 	if ((akBaseItem as Potion) || (akBaseItem as Ingredient)) && flPlanterPlantableItem.hasForm(akBaseItem as form)	
-; 			debug.Trace(self + " has found " + akBaseItem + " to be in the FormList: setting as planted item")
+			;debug.Trace(self + " has found " + akBaseItem + " to be in the FormList: setting as planted item")
 			
 			int flIndex = 0
 			while flIndex < flPlanterPlantableItem.getSize()
 				if akBaseItem == flPlanterPlantableItem.getAt(flIndex)
 					plantedItemIndex = flIndex
-; 					debug.Trace(self + " index=" + plantedItemIndex)
+					;debug.Trace(self + " index=" + plantedItemIndex)
 					;we have found the index, set incremental counter to formlist size to force kick out
 					flIndex = flPlanterPlantableItem.getSize()
 				endif
@@ -52,7 +52,7 @@ Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemRefere
 				self.RemoveItem(plantedItem, 1, true, Game.GetPlayer())
 				plantedItem = akBaseItem
 				plantedItemRef = akItemReference
-; 				debug.Trace(self + " has set plantedItem to " + akBaseItem)
+				;debug.Trace(self + " has set plantedItem to " + akBaseItem)
 				
 				utility.WaitMenuMode(0)
 				
@@ -62,7 +62,7 @@ Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemRefere
 				plantedItemRef = akItemReference
 			endif
 			if plantedItem
-; 				debug.Trace(self + " plantedItem=" + plantedItem)
+				;debug.Trace(self + " plantedItem=" + plantedItem)
 			endif
 
 			if (aiItemCount > 1)
@@ -82,7 +82,7 @@ Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemRefere
 	
 	
 	if !containerProccessed
-; 		debug.Trace(self + " processing container")
+		;debug.Trace(self + " processing container")
 		containerProccessed = True
 		Utility.wait(0)
 		SetPlantedItem()
@@ -95,11 +95,11 @@ endEvent
 
 
 Function SetPlantedItem()
-; 	debug.trace(self + " SetPlantedItem: plantedItemIndex=" + plantedItemIndex + ", plantedFloraBase="+plantedFloraBase)
+	;debug.trace(self + " SetPlantedItem: plantedItemIndex=" + plantedItemIndex + ", plantedFloraBase="+plantedFloraBase)
 	containerProccessed = False
 	if	!plantedFloraBase || plantedFloraBase != flPlanterPlantedFlora.getAt(plantedItemIndex)
 		plantedFloraBase = flPlanterPlantedFlora.getAt(plantedItemIndex)
-; 		debug.Trace(self + " plantedFloraBase="+plantedFloraBase)
+		;debug.Trace(self + " plantedFloraBase="+plantedFloraBase)
 		; set timestamp
 		plantedTimestamp = GameDaysPassed.GetValue()
 		; switch soil visual state
@@ -114,9 +114,9 @@ endEvent
 
 ; call this when it's time to try to grow the planted item
 function GrowPlantedItem()
-; 	debug.Trace(self + "onCellAttach - check to see if anything should grow " + GameDaysPassed.GetValue() + ", plantedTimestamp=" + plantedTimestamp)
+	;debug.Trace(self + "onCellAttach - check to see if anything should grow " + GameDaysPassed.GetValue() + ", plantedTimestamp=" + plantedTimestamp)
 	if !plantedFloraRef && plantedItem && (GameDaysPassed.GetValue() - plantedTimestamp) >= growDays
-; 		debug.Trace(self + " growing " + plantedItem)
+		;debug.Trace(self + " growing " + plantedItem)
 		; count this as the "last reset" time
 		resetTimestamp = GameDaysPassed.GetValue()
 		; remove the planted item from container and place flora
@@ -127,7 +127,7 @@ function GrowPlantedItem()
 		(mySoilRef as BYOHPlanterSoilScript).goToState("planted")
 	elseif plantedFloraRef && (GameDaysPassed.GetValue() - resetTimestamp) >= resetDays
 		; if I've already placed a flora, see if it's time to reset
-; 		debug.Trace(self + " resetting " + plantedFloraBase)
+		;debug.Trace(self + " resetting " + plantedFloraBase)
 		; delete existing ref
 		plantedFloraRef.Delete()
 		; place a new one
